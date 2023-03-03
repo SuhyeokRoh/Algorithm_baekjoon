@@ -1,3 +1,7 @@
+import sys
+
+input = sys.stdin.readline
+
 paper = int(input())
 arr = [[0] * 1001 for _ in range(1001)]
 for i in range(1, paper+1):
