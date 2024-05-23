@@ -1,32 +1,23 @@
-def queen(i, n, lst):
-    global rst
+import sys
 
-    if i == n - 1:
-        rst += lst[i].count(0)
+
+def queen(i):
+    global n, rst
+
+    if i == n:
+        rst += 1
         return
 
     for x in range(n):
-        if lst[i][x] == 0:
-            t, tmp = 0, []
-            while i+t < n:
-                if lst[i+t][x] == 0:
-                    lst[i+t][x] = 1
-                    tmp.append([i+t, x])
-                if x-t >= 0 and lst[i+t][x-t] == 0:
-                    lst[i+t][x-t] = 1
-                    tmp.append([i+t, x-t])
-                if x+t < n and lst[i+t][x+t] == 0:
-                    lst[i+t][x+t] = 1
-                    tmp.append([i+t, x+t])
-                t += 1
-            queen(i+1, n, lst)
-            for j, k in tmp:
-                lst[j][k] = 0
-        else:
-            continue
+        if not used[x] and not usedUp[i+x] and not usedDown[i-x]:
+            used[x] = usedUp[i+x] = usedDown[i-x] = True
+            queen(i+1)
+            used[x] = usedUp[i+x] = usedDown[i-x] = False
+
 
 rst = 0
-n = int(input())
+n = int(sys.stdin.readline().rstrip())
 lst = [[0] * n for _ in range(n)]
-queen(0, n, lst)
+used, usedUp, usedDown = [False] * n, [False] * (2 * n - 1), [False] * (2 * n - 1)
+queen(0)
 print(rst)
